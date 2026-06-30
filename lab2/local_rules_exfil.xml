@@ -1,0 +1,15 @@
+<group name="local,exfiltration,">
+  <!-- Regla base: detecta transferencia saliente mayor a 500MB -->
+  <rule id="100002" level="10">
+    <if_sid>0</if_sid>
+    <description>Transferencia de datos saliente superior a 500MB detectada</description>
+    <group>data_exfiltration</group>
+  </rule>
+
+  <!-- Regla compuesta: exfiltracion critica fuera de horario -->
+  <rule id="100003" level="14" frequency="2" timeframe="3600">
+    <if_matched_sid>100002</if_matched_sid>
+    <description>CRITICO: Posible exfiltracion de datos fuera de horario laboral</description>
+    <group>data_exfiltration,after_hours</group>
+  </rule>
+</group>
