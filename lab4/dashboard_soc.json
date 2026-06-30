@@ -1,0 +1,20 @@
+{
+  "title": "SOC - Monitor de Seguridad",
+  "author": "Fabrizio Yerald Alfonso Sanchez Saravia",
+  "tool": "Wazuh Dashboard / OpenSearch Dashboards 4.7.5",
+  "index_pattern": "wazuh-alerts-*",
+  "time_range": "Last 24 hours",
+  "panels": [
+    {"id": "V1", "type": "vertical_bar", "metric": "count", "group_by": "rule.level"},
+    {"id": "V2", "type": "data_table", "metric": "top10_ips", "group_by": "data.srcip"},
+    {"id": "V3", "type": "line", "metric": "alerts_per_hour", "group_by": "timestamp_1h"},
+    {"id": "V4", "type": "pie_chart", "metric": "rule_distribution", "group_by": "rule.groups"}
+  ],
+  "alert_rule": {
+    "name": "Brute Force SSH Alert",
+    "rule_id": "100010",
+    "level": 10,
+    "threshold": 5,
+    "timeframe_minutes": 5
+  }
+}
