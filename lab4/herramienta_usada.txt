@@ -1,0 +1,4 @@
+Herramienta: Wazuh Dashboard / OpenSearch Dashboards
+Version: Wazuh 4.7.5 / OpenSearch Dashboards integrado
+URL: https://192.168.57.100
+Indice: wazuh-alerts-*
