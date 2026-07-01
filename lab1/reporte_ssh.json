@@ -1,7 +1,7 @@
 {
-    "total_ips": 35,
-    "umbral_alerta": 50,
-    "top10": [
+    "fecha_analisis": "2026-07-01 01:25:30",
+    "total_intentos_fallidos": 253,
+    "ips_sospechosas": [
         {
             "ip": "45.33.32.156",
             "intentos": 120,
