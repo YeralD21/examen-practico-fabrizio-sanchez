@@ -1,26 +1,21 @@
 import pandas as pd
+import numpy as np
 import joblib
 import sys
 
 modelo = joblib.load('modelo_anomalias.pkl')
 scaler = joblib.load('scaler.pkl')
 
-features = ['dst_port', 'bytes_sent', 'bytes_recv', 'duration_sec',
-            'packets', 'ratio_bytes', 'bytes_por_segundo',
-            'bytes_total', 'protocol_enc',
-            'log_bytes_sent', 'log_duration', 'packets_por_segundo']
+features = ['bytes_sent_log', 'bytes_recv_log', 'duration_sec',
+            'packets', 'dst_port', 'ratio_bytes_log', 'bytes_por_segundo_log']
 
 archivo = sys.argv[1] if len(sys.argv) > 1 else 'network_traffic.csv'
 df = pd.read_csv(archivo)
 
-import numpy as np
 df['ratio_bytes'] = df['bytes_sent'] / (df['bytes_recv'] + 1)
-df['bytes_por_segundo'] = df['bytes_sent'] / (df['duration_sec'] + 1)
-df['bytes_total'] = df['bytes_sent'] + df['bytes_recv']
-df['log_bytes_sent'] = np.log1p(df['bytes_sent'])
-df['log_duration'] = np.log1p(df['duration_sec'])
-df['packets_por_segundo'] = df['packets'] / (df['duration_sec'] + 1)
-df['protocol_enc'] = pd.Categorical(df['protocol']).codes
+df['bytes_por_segundo'] = (df['bytes_sent'] + df['bytes_recv']) / (df['duration_sec'] + 1)
+for col in ['bytes_sent', 'bytes_recv', 'ratio_bytes', 'bytes_por_segundo']:
+    df[col + '_log'] = np.log1p(df[col])
 
 X = scaler.transform(df[features])
 scores = modelo.decision_function(X)
